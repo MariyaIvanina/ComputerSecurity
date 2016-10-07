@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-    <APPLICATION_USER USER_ID="1" LOGIN="test" EMAIL="test" USER_PASSWORD="test" USER_ROLE="1"/>
-    <APPLICATION_USER USER_ID="2" LOGIN="user1" EMAIL="user1@mail.ru" USER_PASSWORD="12345" USER_ROLE="2"/>
-    <APPLICATION_USER USER_ID="3" LOGIN="user2" EMAIL="user2@mail.ru" USER_PASSWORD="12345" USER_ROLE="3"/>
-
-    <RESOURCES RESOURCES_ID="1" PATH="D:/"/>
-    <RESOURCES RESOURCES_ID="2" PATH="C:/"/>
-</dataset>
