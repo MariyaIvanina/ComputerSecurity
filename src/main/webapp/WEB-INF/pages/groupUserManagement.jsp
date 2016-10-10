@@ -28,15 +28,8 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="${pageContext.request.contextPath}/" title="Home">Back</a></li>
-                <c:if test="${currentuser == null}">
-                    <li><a href="${pageContext.request.contextPath}/login" title ="LogIn" id="LoginPopup">Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/registration" title="Registration">Register</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && !isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/" title ="User" >${currentuser}</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/admin" title ="User" >${currentuser}</a></li>
+                <c:if test="${currentuser != null}">
+                    <<li><a href="${pageContext.request.contextPath}/admin" title ="User" >${currentuser}</a></li>
                 </c:if>
                 <c:if test="${currentuser != null}">
                     <li><a href="${pageContext.request.contextPath}/logout" title ="User" >Logout</a></li>
@@ -46,32 +39,26 @@
     </div>
 </div>
 <div class="container body-content">
-    <div class="jumbotron">
-        <h1>Corporate Project Viewer</h1>
-    </div>
-    <c:if test="${resources != null}">
-        <table class="table table-striped table-hover">
+    <h1>Access Management</h1>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/addUser?group_id=${groupUserId}">Add user to Group</a>
+    <table class="table table-striped table-hover">
 
-            <!-- column headers -->
-            <thead>
-            <th>Resource Name</th>
-            <th></th>
-            </thead>
-            <!-- column data -->
-            <tbody>
-            <c:forEach var="row" items="${resources}">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/viewResource?id=${row.getResourceId()}">${row.getResourceName()}</a></td>
-                    <td><c:if test="${row.isFullPermission()}">
-                        <a class="btn btn-default" href="${pageContext.request.contextPath}/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
-                    </c:if>
-
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+        <!-- column headers -->
+        <thead>
+        <th>User</th>
+        <th></th>
+        <th></th>
+        </thead>
+        <!-- column data -->
+        <tbody>
+        <c:forEach var="row" items="${users}">
+            <tr>
+                <td> <c:out value="${row.getLogin()}"/></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteUser?user_id=${row.getUserId()}&group_id=${groupUserId}" role="button">Delete user from group</a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
     <hr />
     <footer>
@@ -81,3 +68,4 @@
 
 </body>
 </html>
+

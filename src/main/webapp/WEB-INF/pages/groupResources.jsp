@@ -28,15 +28,8 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li> <a href="${pageContext.request.contextPath}/" title="Home">Back</a></li>
-                <c:if test="${currentuser == null}">
-                    <li><a href="${pageContext.request.contextPath}/login" title ="LogIn" id="LoginPopup">Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/registration" title="Registration">Register</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && !isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/" title ="User" >${currentuser}</a></li>
-                </c:if>
-                <c:if test="${currentuser != null && isAdmin}">
-                    <li><a href="${pageContext.request.contextPath}/admin" title ="User" >${currentuser}</a></li>
+                <c:if test="${currentuser != null}">
+                    <<li><a href="${pageContext.request.contextPath}/admin" title ="User" >${currentuser}</a></li>
                 </c:if>
                 <c:if test="${currentuser != null}">
                     <li><a href="${pageContext.request.contextPath}/logout" title ="User" >Logout</a></li>
@@ -46,32 +39,27 @@
     </div>
 </div>
 <div class="container body-content">
-    <div class="jumbotron">
-        <h1>Corporate Project Viewer</h1>
-    </div>
-    <c:if test="${resources != null}">
-        <table class="table table-striped table-hover">
+    <h1>Resource Group Management</h1>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/createGroupResource">Create Group User</a>
+    <table class="table table-striped table-hover">
 
-            <!-- column headers -->
-            <thead>
-            <th>Resource Name</th>
-            <th></th>
-            </thead>
-            <!-- column data -->
-            <tbody>
-            <c:forEach var="row" items="${resources}">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/viewResource?id=${row.getResourceId()}">${row.getResourceName()}</a></td>
-                    <td><c:if test="${row.isFullPermission()}">
-                        <a class="btn btn-default" href="${pageContext.request.contextPath}/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
-                    </c:if>
-
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+        <!-- column headers -->
+        <thead>
+        <th>Resource Group</th>
+        <th></th>
+        <th></th>
+        </thead>
+        <!-- column data -->
+        <tbody>
+        <c:forEach var="row" items="${resourceGroups}">
+            <tr>
+                <td><a href="${pageContext.request.contextPath}/showResources?id=${row.getResourceGroupId()}"> ${row.getGroupName()}</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/editGroupResource?id=${row.getResourceGroupId()}" role="button">Edit Resource Group</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteGroupResource?id=${row.getResourceGroupId()}" role="button">Delete Resource Group</a></td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 
     <hr />
     <footer>
@@ -81,3 +69,4 @@
 
 </body>
 </html>
+

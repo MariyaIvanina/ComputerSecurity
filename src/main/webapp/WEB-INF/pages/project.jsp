@@ -46,32 +46,10 @@
     </div>
 </div>
 <div class="container body-content">
-    <div class="jumbotron">
-        <h1>Corporate Project Viewer</h1>
-    </div>
-    <c:if test="${resources != null}">
-        <table class="table table-striped table-hover">
-
-            <!-- column headers -->
-            <thead>
-            <th>Resource Name</th>
-            <th></th>
-            </thead>
-            <!-- column data -->
-            <tbody>
-            <c:forEach var="row" items="${resources}">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/viewResource?id=${row.getResourceId()}">${row.getResourceName()}</a></td>
-                    <td><c:if test="${row.isFullPermission()}">
-                        <a class="btn btn-default" href="${pageContext.request.contextPath}/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
-                    </c:if>
-
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+    <h1> ${project.getProjectName()}</h1>
+    <p>
+        ${project.getProjectInfo()}
+    </p>
 
     <hr />
     <footer>

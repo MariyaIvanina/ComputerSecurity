@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:database.properties"/>
+    </bean>
+
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp2.BasicDataSource">
+
+        <property name="driverClassName" value="${db.driver}" />
+        <property name="url" value="${db.url}" />
+        <property name="username" value="${db.user}" />
+        <property name="password" value="${db.password}" />
+        <property name="initialSize" value="${db.poolsize}"/>
+
+    </bean>
+
+    <bean id="userDAO" class="by.bsu.var4.dao.impl.UserDAOImpl"/>
+    <bean id="resourceDAO" class="by.bsu.var4.dao.impl.ResourceDAOImpl"/>
+
+    <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+        <property name="datatypeFactory">
+            <bean class="org.dbunit.ext.mssql.MsSqlDataTypeFactory"/>
+        </property>
+
+    </bean>
+    <bean id="dbUnitDatabaseConnection"
+          class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig" />
+    </bean>
+</beans>
