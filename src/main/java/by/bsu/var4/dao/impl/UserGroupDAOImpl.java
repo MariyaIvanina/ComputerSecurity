@@ -21,7 +21,9 @@ public class UserGroupDAOImpl implements UserGroupDAO{
     private static final String SQL_SELECT_ALL_USER_GROUPS = "SELECT GROUP_USER_NAME_ID, GROUP_NAME FROM GROUP_USER_NAMES";
     private static final String SQL_SELECT_USER_GROUP_BY_ID = "SELECT GROUP_USER_NAME_ID, GROUP_NAME FROM GROUP_USER_NAMES WHERE GROUP_USER_NAME_ID=?";
     private static final String SQL_UPDATE_USER_GROUP = "UPDATE GROUP_USER_NAMES SET GROUP_NAME=? WHERE GROUP_USER_NAME_ID=?";
-    private static final String SQL_DELETE_USER_GROUP = "DELETE FROM GROUP_USER_NAMES WHERE GROUP_USER_NAME_ID=?";
+    private static final String SQL_DELETE_USER_GROUP0= "DELETE FROM GROUP_USERS_RESOURCES_PERMISSIONS WHERE GROUP_USER_NAME_ID = ?";
+    private static final String SQL_DELETE_USER_GROUP1 = "DELETE FROM GROUP_USERS WHERE GROUP_USER_NAME_ID = ?";
+    private static final String SQL_DELETE_USER_GROUP2 = "DELETE FROM GROUP_USER_NAMES WHERE GROUP_USER_NAME_ID=?";
     private static final String SQL_DELETE_USER_FROM_GROUP = "DELETE FROM GROUP_USERS WHERE GROUP_USER_NAME_ID=? AND USER_ID =?";
     private static final String SQL_SELECT_ALL_USERS_BY_GROUP = "SELECT users.USER_ID, users.LOGIN, users.EMAIL, users.USER_PASSWORD, users.USER_ROLE FROM GROUP_USERS group_users INNER JOIN APPLICATION_USER users ON users.USER_ID = group_users.USER_ID WHERE group_users.GROUP_USER_NAME_ID = ? ";
     private static final String SQL_SELECT_ALL_AVAILABLE_USERS_BY_GROUP = "SELECT USER_ID, LOGIN, EMAIL, USER_PASSWORD, USER_ROLE FROM APPLICATION_USER WHERE USER_ID NOT IN (SELECT USER_ID FROM GROUP_USERS WHERE GROUP_USER_NAME_ID = ?) ";
@@ -113,9 +115,17 @@ public class UserGroupDAOImpl implements UserGroupDAO{
     @Override
     public void delete(Integer key) throws DAOException {
         try(Connection con = dataSource.getConnection();
-            PreparedStatement ps = con.prepareStatement(SQL_DELETE_USER_GROUP);) {
+            PreparedStatement ps = con.prepareStatement(SQL_DELETE_USER_GROUP0);
+            PreparedStatement ps1 = con.prepareStatement(SQL_DELETE_USER_GROUP1);
+            PreparedStatement ps2 = con.prepareStatement(SQL_DELETE_USER_GROUP2);)
+        {
             ps.setInt(1, key);
             ps.executeUpdate();
+            ps1.setInt(1, key);
+            ps1.executeUpdate();
+            ps2.setInt(1, key);
+            ps2.executeUpdate();
+
         } catch (SQLException e) {
             throw new DAOException("Error while delete user.", e);
         }

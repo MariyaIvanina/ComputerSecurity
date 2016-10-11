@@ -23,7 +23,9 @@ public class ResourceGroupDAOImpl implements ResourceGroupDAO{
     private static final String SQL_CREATE_RESOURCE_GROUP = "INSERT INTO GROUP_RESOURCE_NAMES(GROUP_NAME) VALUES(?)";
     private static final String SQL_GET_RESOURCE_GROUP_BY_ID = "SELECT * FROM GROUP_RESOURCE_NAMES WHERE GROUP_RESOURCES_NAME_ID = ?";
     private static final String SQL_UPDATE_RESOURCE_GROUP = "UPDATE GROUP_RESOURCE_NAMES SET GROUP_NAME =? WHERE GROUP_RESOURCES_NAME_ID =?";
-    private static final String SQL_DELETE_RESOURCE_GROUP = "DELETE FROM GROUP_RESOURCE_NAMES WHERE GROUP_RESOURCES_NAME_ID=?";
+    private static final String SQL_DELETE_RESOURCE_GROUP0 = "DELETE FROM GROUP_USERS_RESOURCES_PERMISSIONS WHERE GROUP_RESOURCES_NAME_ID=?";
+    private static final String SQL_DELETE_RESOURCE_GROUP1 = "DELETE FROM GROUP_RESOURCES WHERE GROUP_RESOURCES_NAME_ID=?";
+    private static final String SQL_DELETE_RESOURCE_GROUP2 = "DELETE FROM GROUP_RESOURCE_NAMES WHERE GROUP_RESOURCES_NAME_ID=?";
     private static final String SQL_CONNECT_RESOURCE_TO_GROUP = "INSERT INTO GROUP_RESOURCES(GROUP_RESOURCES_NAME_ID, RESOURCES_ID) VALUES(?,?)";
     private static final String SQL_DELETE_RESOURCE_FROM_GROUP = "DELETE FROM GROUP_RESOURCES WHERE GROUP_RESOURCES_NAME_ID=? AND RESOURCES_ID=?";
 
@@ -99,9 +101,16 @@ public class ResourceGroupDAOImpl implements ResourceGroupDAO{
     @Override
     public void delete(Integer key) throws DAOException {
         try(Connection con = dataSource.getConnection();
-            PreparedStatement ps = con.prepareStatement(SQL_DELETE_RESOURCE_GROUP);) {
+            PreparedStatement ps = con.prepareStatement(SQL_DELETE_RESOURCE_GROUP0);
+            PreparedStatement ps1 = con.prepareStatement(SQL_DELETE_RESOURCE_GROUP1);
+            PreparedStatement ps2 = con.prepareStatement(SQL_DELETE_RESOURCE_GROUP2);
+        ) {
             ps.setInt(1, key);
             ps.executeUpdate();
+            ps1.setInt(1, key);
+            ps1.executeUpdate();
+            ps2.setInt(1, key);
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while delete user.", e);
         }

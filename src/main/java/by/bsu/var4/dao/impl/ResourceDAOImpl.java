@@ -17,6 +17,7 @@ public class ResourceDAOImpl implements ResourceDAO {
     private static final String SQL_SELECT_RESOURCE_BY_ID = "SELECT PROJECT_NAME, PROJECT_INFO FROM RESOURCES WHERE RESOURCES_ID=?";
     private static final String SQL_SELECT_ALL_RESOURCES = "SELECT RESOURCES_ID, PROJECT_NAME, PROJECT_INFO FROM RESOURCES";
     private static final String SQL_UPDATE_RESOURCE = "UPDATE RESOURCES SET PROJECT_NAME=?, PROJECT_INFO=? WHERE RESOURCES_ID=?";
+    private static final String SQL_DELETE_RESOURCE0 = "DELETE FROM GROUP_RESOURCES WHERE RESOURCES_ID=?";
     private static final String SQL_DELETE_RESOURCE = "DELETE FROM RESOURCES WHERE RESOURCES_ID=?";
     private static final String SQL_SELECT_AVAILABLE_RESOURCES = "SELECT resources.RESOURCES_ID, resources.PROJECT_NAME, CASE WHEN SUM(perm.FULL_PERMISSION)>0 THEN 1 ELSE 0 END AS FULL_PERMISSION\n" +
             "FROM RESOURCES resources\n" +
@@ -104,9 +105,12 @@ public class ResourceDAOImpl implements ResourceDAO {
     @Override
     public void delete(Integer resourceId) throws DAOException {
         try(Connection con = dataSource.getConnection();
-            PreparedStatement ps = con.prepareStatement(SQL_DELETE_RESOURCE);) {
+            PreparedStatement ps = con.prepareStatement(SQL_DELETE_RESOURCE0);
+            PreparedStatement ps1 = con.prepareStatement(SQL_DELETE_RESOURCE)) {
             ps.setInt(1, resourceId);
             ps.executeUpdate();
+            ps1.setInt(1, resourceId);
+            ps1.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while delete user.", e);
         }
