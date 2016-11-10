@@ -14,6 +14,7 @@
     <link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet" type="text/css">
     <script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>" type="text/javascript"></script>
     <script src="<c:url value="/resources/scripts/bootstrap.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/resources/scripts/validator.min.js"/>" type="text/javascript"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
 </head>
@@ -46,19 +47,22 @@
 </div>
 <div class="container body-content">
     <h1>Log In</h1>
-    <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm">
-        <div class="control-group">
+
+    <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm" data-toggle="validator">
+        <div class="form-group control-group">
             <label class="control-label">Login:</label>
             <div class="controls">
-                <form:input cssClass="input-xlarge" path="login" value=""/>
+                <form:input cssClass="form-control input-xlarge" path="login" value="" data-error="Login is invalid" data-minlength="4" maxlength="30" required="true"/>
                 <span class="error"><form:errors path="login" /></span>
+                <div class="help-block with-errors"></div>
             </div>
         </div>
-        <div class="control-group">
+        <div class="form-group  control-group">
             <label class="control-label">Password:</label>
             <div class="controls">
-                <form:password cssClass="input-xlarge" path="password" value=""/>
+                <form:password cssClass="form-control input-xlarge" path="password" value="" data-error="Password is invalid" data-minlength="4" maxlength="30" required="true"/>
                 <span class="error"><form:errors path="password" /></span>
+                <div class="help-block with-errors"></div>
             </div>
         </div>
         <br>

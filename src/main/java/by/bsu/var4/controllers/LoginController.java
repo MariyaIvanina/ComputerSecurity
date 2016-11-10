@@ -6,6 +6,8 @@ import by.bsu.var4.entity.User;
 import by.bsu.var4.entity.UserModel;
 import by.bsu.var4.entity.UserRole;
 import by.bsu.var4.exception.DAOException;
+import by.bsu.var4.util.MailMail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 
 /**
@@ -25,6 +29,10 @@ import java.sql.SQLException;
  */
 @Controller
 public class LoginController extends BaseController{
+
+    @Autowired
+    MailMail mailMail;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLogin(){
         return new ModelAndView("login", "user", new User());
@@ -54,6 +62,23 @@ public class LoginController extends BaseController{
             addCookie(userDb.getLogin(), resp);
         }
         model.addAttribute("currentuser", userDb.getLogin());
+        String str = "Здравствуйте, " + userDb.getLogin() +"!\n" +
+                "Вы получили данное письмо, т.к. Ваш e-mail указан как контактный в корпаративной системе\n" +
+                "и было запрошено получение сеансового ключа на e-mail.\n" +
+                "\n" +
+                "\n" +
+                "Ваш сеансовый ключ для входа в систему: ";
+        try {
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            for(int i=0; i < 4; i++) {
+                int randInt = random.nextInt(9);
+                str += randInt;
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        mailMail.sendMail("kblab1var4@gmail.com", userDb.getEmail(), "Ваш сеансовый ключ", str);
         if(userDb != null && userDb.getRole() == UserRole.Admin.ordinal())
         {
             model.addAttribute("userGroupConnections", userGroupDAO.getConnections());

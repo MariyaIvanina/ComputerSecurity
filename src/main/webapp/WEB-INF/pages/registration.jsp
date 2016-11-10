@@ -20,6 +20,7 @@
     <link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet" type="text/css">
     <script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>" type="text/javascript"></script>
     <script src="<c:url value="/resources/scripts/bootstrap.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/resources/scripts/validator.min.js"/>" type="text/javascript"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Registration</title>
 </head>
@@ -52,21 +53,23 @@
 <div class="container body-content">
     <fieldset>
         <h1>Registration</h1>
-        <form:form commandName="person" cssClass="form-horizontal">
+        <form:form commandName="person" cssClass="form-horizontal" data-toggle="validator">
 
-        <div class="control-group">
+        <div class="form-group control-group">
             <label class="control-label">Login:</label>
             <div class="controls">
-                <form:input  cssClass="input-xlarge" path="login"/>
+                <form:input  cssClass="form-control input-xlarge" path="login" value="" data-error="Login is invalid" data-minlength="4" maxlength="30" required="true" />
                 <span class="error"><form:errors path="login" /></span>
+                <div class="help-block with-errors"></div>
             </div>
         </div>
 
-        <div class="control-group">
+        <div class="form-group control-group">
             <label class="control-label">E-mail:</label>
             <div class="controls">
-                <form:input cssClass="input-xlarge" path="email" value=""/>
+                <form:input cssClass="form-control input-xlarge" path="email" value=""  data-error="Email is invalid" required="true"/>
                 <span class="error"><form:errors path="email" /></span>
+                <div class="help-block with-errors"></div>
             </div>
         </div>
 
