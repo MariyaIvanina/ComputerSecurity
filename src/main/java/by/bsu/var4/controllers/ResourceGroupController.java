@@ -105,10 +105,9 @@ public class ResourceGroupController extends BaseController{
         System.out.println(pin);
         HttpSession session = req.getSession();
         String realPin = (String) session.getAttribute("pinCode");
-        if(!realPin.equals(pin)){
-          ///  result.reject();
+        if(realPin.equals(pin)){
+            resourceDAO.update(resource);
         }
-        resourceDAO.update(resource);
         return manageRequests(req, resp, model);
     }
 
