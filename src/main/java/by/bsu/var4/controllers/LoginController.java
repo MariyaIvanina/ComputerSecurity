@@ -45,7 +45,7 @@ public class LoginController extends BaseController{
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String processLogin(
             @ModelAttribute(USER) User user,
-            BindingResult result,HttpServletRequest req, HttpServletResponse resp,Model model) throws IOException, SQLException, DAOException {
+            BindingResult result, HttpServletRequest req, HttpServletResponse resp,Model model) throws IOException, SQLException, DAOException {
 
         User userDb = userDAO.getUser(user.getLogin(), user.getPassword());
         HttpSession session = req.getSession();

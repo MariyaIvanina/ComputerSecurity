@@ -11,7 +11,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="<c:url value="/resources/css/bootstrap.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet" type="text/css">
     <script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>" type="text/javascript"></script>
     <script src="<c:url value="/resources/scripts/bootstrap.js"/>" type="text/javascript"></script>
@@ -47,7 +46,7 @@
 </div>
 <div class="container body-content">
     <h1>Resources </h1>
-    <form:form id="editForm" commandName="resource" cssClass="form-horizontal">
+    <form:form commandName="resource" cssClass="form-horizontal" id="editForm">
         <div class="control-group">
             <label class="control-label">Project Name:</label>
             <div class="controls">
@@ -66,30 +65,34 @@
         </div>
         <br>
         <div class="form-actions">
-            <tr><td><button value="Submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal"/></td></tr>
+            <tr><td></td></tr>
         </div>
-
     </form:form>
 
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+        Submit
+    </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Enter pin code:</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <input type="password" name="pinCode" form="editForm" value="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" form="editForm" class="btn btn-primary">Save changes</button>
+                    <input  type="submit" value="Submit" class="btn btn-primary" form="editForm">
                 </div>
             </div>
         </div>
     </div>
+
     <hr />
     <footer>
     </footer>

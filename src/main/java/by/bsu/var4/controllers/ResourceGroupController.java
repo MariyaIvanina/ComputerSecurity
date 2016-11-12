@@ -6,6 +6,7 @@ import by.bsu.var4.entity.ResourceGroupConnection;
 import by.bsu.var4.exception.DAOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -83,6 +85,8 @@ public class ResourceGroupController extends BaseController{
     @RequestMapping(value = "/addResource", method = RequestMethod.POST)
     public String addResourceToDb(@ModelAttribute("resource") Resource resource,
                                    HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, SQLException, DAOException {
+        System.out.println(resource);
+     //   System.out.println(pinCode);
         resourceDAO.create(resource);
         return manageRequests(req, resp, model);
     }
@@ -95,8 +99,15 @@ public class ResourceGroupController extends BaseController{
     }
 
     @RequestMapping(value = "/editResource", method = RequestMethod.POST)
-    public String editResourceToDb(@ModelAttribute("resource") Resource resource,
+    public String editResourceToDb(@ModelAttribute("resource") Resource resource, @RequestParam("pinCode") String pin, BindingResult result,
                                HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, SQLException, DAOException {
+        System.out.println(resource);
+        System.out.println(pin);
+        HttpSession session = req.getSession();
+        String realPin = (String) session.getAttribute("pinCode");
+        if(!realPin.equals(pin)){
+          ///  result.reject();
+        }
         resourceDAO.update(resource);
         return manageRequests(req, resp, model);
     }

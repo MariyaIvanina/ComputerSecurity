@@ -52,7 +52,8 @@ public class Resource {
     public String toString() {
         return "Resource{" +
                 "resourceId=" + resourceId +
-                ", project name='" + projectName + '\'' +
+                ", projectName='" + projectName + '\'' +
+                ", projectInfo='" + projectInfo + '\'' +
                 '}';
     }
 

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -76,7 +77,7 @@ public class BaseController {
     }
 
     protected User getCurrentUser(HttpServletRequest req) throws DAOException {
-        Cookie[] cookies = req.getCookies();
+      /*  Cookie[] cookies = req.getCookies();
         String login = "";
         if(cookies == null)
         {
@@ -89,7 +90,11 @@ public class BaseController {
                 login = cookie.getValue();
                 break;
             }
-        }
+        }*/
+        HttpSession session = req.getSession(false);
+        if (session == null)
+            return null;
+        String login = (String) session.getAttribute("login");
         User userDb = userDAO.getUser(login);
         return userDb;
     }
