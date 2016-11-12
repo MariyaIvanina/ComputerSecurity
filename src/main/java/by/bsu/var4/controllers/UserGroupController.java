@@ -1,9 +1,7 @@
 package by.bsu.var4.controllers;
 
-import by.bsu.var4.entity.User;
 import by.bsu.var4.entity.UserGroup;
 import by.bsu.var4.entity.UserGroupConnection;
-import by.bsu.var4.entity.UserRole;
 import by.bsu.var4.exception.DAOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +21,11 @@ import java.sql.SQLException;
  * Created by Asus on 08.10.2016.
  */
 @Controller
+@RequestMapping("/userGroup")
 public class UserGroupController extends BaseController{
     @RequestMapping(value = "/createGroupUser", method = RequestMethod.GET)
     public ModelAndView getUserGroup(HttpServletRequest req, Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("groupUserName", "userGroup", new UserGroup());
     }
 
@@ -42,7 +41,7 @@ public class UserGroupController extends BaseController{
     @RequestMapping(value = "/editGroupUser", method = RequestMethod.GET)
     public ModelAndView editUserGroup(@RequestParam("id") Integer param, HttpServletRequest req, Model model) throws DAOException {
         UserGroup userGroup = userGroupDAO.retrieve(param);
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("groupUserName", "userGroup", userGroup);
     }
 
@@ -57,20 +56,20 @@ public class UserGroupController extends BaseController{
     @RequestMapping(value = "/deleteGroupUser", method = RequestMethod.GET)
     public String deleteUserGroup(@RequestParam("id") Integer param, HttpServletRequest req, Model model) throws DAOException {
         userGroupDAO.delete(param);
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return getGroupUserNames(req, model);
     }
 
     @RequestMapping(value = "/groupUser", method = RequestMethod.GET)
     public String getGroupUserNames(HttpServletRequest req,Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         model.addAttribute("userGroups", userGroupDAO.retrieveAll());
         return "groupUser";
     }
 
     @RequestMapping(value = "/showUsers", method = RequestMethod.GET)
     public String getGroupUsers(@RequestParam("id") Integer param,HttpServletRequest req,Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         model.addAttribute("users", userGroupDAO.getUsers(param));
         model.addAttribute("groupUserId", param);
         return "groupUserManagement";
@@ -81,7 +80,7 @@ public class UserGroupController extends BaseController{
         UserGroupConnection userGroupConnection = new UserGroupConnection();
         userGroupConnection.setUserGroupId(param);
         model.addAttribute("users", userGroupDAO.getAvailableUsers(param));
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addUser", "userGroupConnection", userGroupConnection);
     }
 

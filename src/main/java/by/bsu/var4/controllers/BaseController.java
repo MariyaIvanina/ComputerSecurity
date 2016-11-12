@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import javax.rmi.PortableRemoteObject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,16 +50,17 @@ public class BaseController {
         }
         for (Cookie cookie: cookies)
         {
-            if("login".equals(cookie.getName()))
+            if(cookieName.equals(cookie.getName()))
             {
                 cookie.setMaxAge(0);
+                resp.addCookie(cookie);
                 break;
             }
         }
     }
 
     public String manageRequests(HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, DAOException {
-        User user = getCurrecntUser(req);
+        User user = getCurrentUser(req);
         if(user == null)
         {
             return "index";
@@ -75,7 +75,7 @@ public class BaseController {
         return "index";
     }
 
-    protected User getCurrecntUser(HttpServletRequest req) throws DAOException {
+    protected User getCurrentUser(HttpServletRequest req) throws DAOException {
         Cookie[] cookies = req.getCookies();
         String login = "";
         if(cookies == null)

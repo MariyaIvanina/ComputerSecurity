@@ -40,7 +40,7 @@
 </div>
 <div class="container body-content">
     <h1>Access Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/createGroupUser">Create Group User</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/createGroupUser">Create Group User</a>
     <table class="table table-striped table-hover">
 
         <!-- column headers -->
@@ -53,9 +53,9 @@
         <tbody>
         <c:forEach var="row" items="${userGroups}">
             <tr>
-                <td><a href="${pageContext.request.contextPath}/showUsers?id=${row.getUserGroupId()}"> <c:out value="${row.getGroupName()}"/></a></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/editGroupUser?id=${row.getUserGroupId()}" role="button">Edit Group User</a></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteGroupUser?id=${row.getUserGroupId()}" role="button">Delete Group User</a></td>
+                <td><a href="${pageContext.request.contextPath}/userGroup/showUsers?id=${row.getUserGroupId()}"> <c:out value="${row.getGroupName()}"/></a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/editGroupUser?id=${row.getUserGroupId()}" role="button">Edit Group User</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/deleteGroupUser?id=${row.getUserGroupId()}" role="button">Delete Group User</a></td>
             </tr>
         </c:forEach>
         </tbody>

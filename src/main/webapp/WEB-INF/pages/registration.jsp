@@ -88,6 +88,24 @@
                 <span class="error"><form:errors path="repeatPassword" /></span>
             </div>
             <br>
+
+            <div class="control-group">
+                <label class="control-label">Pin code:</label>
+                <div class="controls">
+                    <form:password cssClass="input-xlarge" path="pinCode" value=""/>
+                    <span class="error"><form:errors path="pinCode" /></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Pin code:</label>
+                <div class="controls">
+                    <form:password cssClass="input-xlarge" path="repeatPinCode" value=""/>
+                    <span class="error"><form:errors path="repeatPinCode" /></span>
+                </div>
+            </div>
+            <br/>
+
             <div class="form-actions">
                 <input type="submit" value="Submit" class="btn btn-primary">
             </div>

@@ -40,7 +40,7 @@
 </div>
 <div class="container body-content">
     <h1>Access Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/addUser?group_id=${groupUserId}">Add user to Group</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/addUser?group_id=${groupUserId}">Add user to Group</a>
     <table class="table table-striped table-hover">
 
         <!-- column headers -->
@@ -54,7 +54,7 @@
         <c:forEach var="row" items="${users}">
             <tr>
                 <td> <c:out value="${row.getLogin()}"/></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteUser?user_id=${row.getUserId()}&group_id=${groupUserId}" role="button">Delete user from group</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/deleteUser?user_id=${row.getUserId()}&group_id=${groupUserId}" role="button">Delete user from group</a></td>
             </tr>
         </c:forEach>
         </tbody>

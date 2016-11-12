@@ -40,9 +40,9 @@
 </div>
 <div class="container body-content">
     <h1>Access Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/groupUser" role="button">Manage User Groups</a>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/groupResource" role="button">Manage Resource Groups</a>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/manageResources" role="button">Manage Resources</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/userGroup/groupUser" role="button">Manage User Groups</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/groupResource" role="button">Manage Resource Groups</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/manageResources" role="button">Manage Resources</a>
     <a class="btn btn-default" href="${pageContext.request.contextPath}/addConnection" role="button">Add connection</a>
     <table class="table table-striped table-hover">
 

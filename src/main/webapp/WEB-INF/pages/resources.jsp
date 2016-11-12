@@ -40,7 +40,7 @@
 </div>
 <div class="container body-content">
     <h1>Resource Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/addResource" role="button">Add resource</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/addResource" role="button">Add resource</a>
     <table class="table table-striped table-hover">
 
         <!-- column headers -->
@@ -53,10 +53,10 @@
         <tbody>
         <c:forEach var="row" items="${resources}">
             <tr>
-                <td><a href="${pageContext.request.contextPath}/viewResource?id=${row.getResourceId()}">${row.getProjectName()}</a></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
+                <td><a href="${pageContext.request.contextPath}/resourceGroup/viewResource?id=${row.getResourceId()}">${row.getProjectName()}</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
             </td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteResource?id=${row.getResourceId()}" role="button">Delete Resource</a>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/deleteResource?id=${row.getResourceId()}" role="button">Delete Resource</a>
                 </td>
             </tr>
         </c:forEach>

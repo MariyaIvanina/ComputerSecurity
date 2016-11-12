@@ -34,11 +34,6 @@
         </property>
     </bean>
 
-    <bean id="mailMail" class="by.bsu.var4.util.MailMail">
-        <property name="mailSender" ref="mailSender" />
-    </bean>
-
-
     <mvc:resources mapping="/resources/**" location="/WEB-INF/pages/resources/"/>
     <mvc:annotation-driven/>
 </beans>

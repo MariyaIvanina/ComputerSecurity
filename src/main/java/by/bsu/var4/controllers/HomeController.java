@@ -1,9 +1,6 @@
 package by.bsu.var4.controllers;
 
-import by.bsu.var4.entity.User;
-import by.bsu.var4.entity.UserGroupConnection;
 import by.bsu.var4.entity.UserResourceConnection;
-import by.bsu.var4.entity.UserRole;
 import by.bsu.var4.exception.DAOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -38,7 +34,7 @@ public class HomeController extends BaseController{
     public ModelAndView addConnection(HttpServletRequest req, Model model) throws DAOException {
         model.addAttribute("userGroups", userGroupDAO.retrieveAll());
         model.addAttribute("resourceGroups", resourceGroupDAO.retrieveAll());
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addConnection", "connection", new UserResourceConnection());
     }
 
@@ -54,7 +50,7 @@ public class HomeController extends BaseController{
         UserResourceConnection con = userGroupDAO.getConnection(id);
         model.addAttribute("userGroups", userGroupDAO.retrieveAll());
         model.addAttribute("resourceGroups", resourceGroupDAO.retrieveAll());
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addConnection", "connection", con);
     }
 

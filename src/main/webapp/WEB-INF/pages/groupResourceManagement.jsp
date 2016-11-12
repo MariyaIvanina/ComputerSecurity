@@ -40,7 +40,7 @@
 </div>
 <div class="container body-content">
     <h1>Access Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/addResourceToGroup?group_id=${groupResourceId}">Add resource to Group</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/addResourceToGroup?group_id=${groupResourceId}">Add resource to Group</a>
     <table class="table table-striped table-hover">
 
         <!-- column headers -->
@@ -54,7 +54,7 @@
         <c:forEach var="row" items="${resources}">
             <tr>
                 <td> <c:out value="${row.getProjectName()}"/></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteResourceFromGroup?resource_id=${row.getResourceId()}&group_id=${groupResourceId}" role="button">Delete resource from group</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/deleteResourceFromGroup?resource_id=${row.getResourceId()}&group_id=${groupResourceId}" role="button">Delete resource from group</a></td>
             </tr>
         </c:forEach>
         </tbody>

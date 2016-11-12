@@ -61,9 +61,9 @@
             <tbody>
             <c:forEach var="row" items="${resources}">
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/viewResource?id=${row.getResourceId()}">${row.getResourceName()}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/resourceGroup/viewResource?id=${row.getResourceId()}">${row.getResourceName()}</a></td>
                     <td><c:if test="${row.isFullPermission()}">
-                        <a class="btn btn-default" href="${pageContext.request.contextPath}/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
+                        <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/editResource?id=${row.getResourceId()}" role="button">Edit Resource</a>
                     </c:if>
 
                     </td>

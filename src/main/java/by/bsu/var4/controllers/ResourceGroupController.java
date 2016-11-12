@@ -3,7 +3,6 @@ package by.bsu.var4.controllers;
 import by.bsu.var4.entity.Resource;
 import by.bsu.var4.entity.ResourceGroup;
 import by.bsu.var4.entity.ResourceGroupConnection;
-import by.bsu.var4.entity.UserResourceConnection;
 import by.bsu.var4.exception.DAOException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +21,12 @@ import java.sql.SQLException;
  * Created by Asus on 09.10.2016.
  */
 @Controller
+@RequestMapping("/resourceGroup")
 public class ResourceGroupController extends BaseController{
 
     @RequestMapping(value = "/createGroupResource", method = RequestMethod.GET)
     public ModelAndView createGroupResource(HttpServletRequest req, Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("groupResourceName", "resourceGroup", new ResourceGroup());
     }
 
@@ -39,7 +39,7 @@ public class ResourceGroupController extends BaseController{
     @RequestMapping(value = "/editGroupResource", method = RequestMethod.GET)
     public ModelAndView editGroupResource(@RequestParam("id") Integer id, HttpServletRequest req, Model model) throws DAOException {
         ResourceGroup resourceGroup = resourceGroupDAO.retrieve(id);
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("groupResourceName", "resourceGroup", resourceGroup);
     }
 
@@ -57,26 +57,26 @@ public class ResourceGroupController extends BaseController{
 
     @RequestMapping(value = "/groupResource", method = RequestMethod.GET)
     public ModelAndView viewResourceGroups(HttpServletRequest req, Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("groupResources", "resourceGroups", resourceGroupDAO.retrieveAll());
     }
 
     @RequestMapping(value = "/manageResources", method = RequestMethod.GET)
     public ModelAndView viewResources(HttpServletRequest req, Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("resources", "resources", resourceDAO.retrieveAll());
     }
 
     @RequestMapping(value = "/viewResource", method = RequestMethod.GET)
     public ModelAndView viewResource(@RequestParam("id") Integer id, HttpServletRequest req, Model model) throws DAOException {
         Resource resource = resourceDAO.retrieve(id);
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("project", "project", resource);
     }
 
     @RequestMapping(value = "/addResource", method = RequestMethod.GET)
     public ModelAndView addResource(HttpServletRequest req, Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addResource", "resource", new Resource());
     }
 
@@ -90,7 +90,7 @@ public class ResourceGroupController extends BaseController{
     @RequestMapping(value = "/editResource", method = RequestMethod.GET)
     public ModelAndView editResource(@RequestParam("id") Integer id, HttpServletRequest req, Model model) throws DAOException {
         Resource resource = resourceDAO.retrieve(id);
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addResource", "resource", resource);
     }
 
@@ -110,7 +110,7 @@ public class ResourceGroupController extends BaseController{
 
     @RequestMapping(value = "/showResources", method = RequestMethod.GET)
     public String getGroupResources(@RequestParam("id") Integer param,HttpServletRequest req,Model model) throws DAOException {
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         model.addAttribute("resources", resourceDAO.getResources(param));
         model.addAttribute("groupResourceId", param);
         return "groupResourceManagement";
@@ -121,7 +121,7 @@ public class ResourceGroupController extends BaseController{
         ResourceGroupConnection resourceGroupConnection = new ResourceGroupConnection();
         resourceGroupConnection.setResourceGroupId(param);
         model.addAttribute("resources", resourceDAO.retrieveAll());
-        model.addAttribute("currentuser", getCurrecntUser(req).getLogin());
+        model.addAttribute("currentuser", getCurrentUser(req).getLogin());
         return new ModelAndView("addResourceGroupConnection", "resourceGroupConnection", resourceGroupConnection);
     }
 

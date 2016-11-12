@@ -40,7 +40,7 @@
 </div>
 <div class="container body-content">
     <h1>Resource Group Management</h1>
-    <a class="btn btn-default" href="${pageContext.request.contextPath}/createGroupResource">Create Group User</a>
+    <a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/createGroupResource">Create Group User</a>
     <table class="table table-striped table-hover">
 
         <!-- column headers -->
@@ -53,9 +53,9 @@
         <tbody>
         <c:forEach var="row" items="${resourceGroups}">
             <tr>
-                <td><a href="${pageContext.request.contextPath}/showResources?id=${row.getResourceGroupId()}"> ${row.getGroupName()}</a></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/editGroupResource?id=${row.getResourceGroupId()}" role="button">Edit Resource Group</a></td>
-                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/deleteGroupResource?id=${row.getResourceGroupId()}" role="button">Delete Resource Group</a></td>
+                <td><a href="${pageContext.request.contextPath}/resourceGroup/showResources?id=${row.getResourceGroupId()}"> ${row.getGroupName()}</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/editGroupResource?id=${row.getResourceGroupId()}" role="button">Edit Resource Group</a></td>
+                <td><a class="btn btn-default" href="${pageContext.request.contextPath}/resourceGroup/deleteGroupResource?id=${row.getResourceGroupId()}" role="button">Delete Resource Group</a></td>
             </tr>
         </c:forEach>
         </tbody>

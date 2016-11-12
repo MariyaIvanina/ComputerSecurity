@@ -23,4 +23,17 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
+
+    <filter>
+        <filter-name>PermissionFilter</filter-name>
+        <filter-class>by.bsu.var4.filter.PermissionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PermissionFilter</filter-name>
+        <url-pattern>/userGroup/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>PermissionFilter</filter-name>
+        <url-pattern>/resourceGroup/*</url-pattern>
+    </filter-mapping>
 </web-app>

@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String password;
     private int role;
+    private String pinCode;
 
     public User() {
         super();
@@ -24,6 +25,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public User(int userId, String login, String email, String password, int role, String pinCode) {
+        this.userId = userId;
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.pinCode = pinCode;
     }
 
     public int getUserId() {
@@ -66,6 +76,14 @@ public class User {
         this.password = password;
     }
 
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,7 +94,9 @@ public class User {
         if (userId != user.userId) return false;
         if (role != user.role) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        return email != null ? email.equals(user.email) : user.email == null;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        return pinCode != null ? pinCode.equals(user.pinCode) : user.pinCode == null;
 
     }
 
@@ -85,7 +105,9 @@ public class User {
         int result = userId;
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + role;
+        result = 31 * result + (pinCode != null ? pinCode.hashCode() : 0);
         return result;
     }
 
@@ -95,7 +117,9 @@ public class User {
                 "userId=" + userId +
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", role=" + role +
+                ", pinCode='" + pinCode + '\'' +
                 '}';
     }
 }
