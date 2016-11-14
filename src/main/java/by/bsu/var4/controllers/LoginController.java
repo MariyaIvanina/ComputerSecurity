@@ -6,6 +6,7 @@ import by.bsu.var4.entity.User;
 import by.bsu.var4.entity.UserModel;
 import by.bsu.var4.entity.UserRole;
 import by.bsu.var4.exception.DAOException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +48,7 @@ public class LoginController extends BaseController{
             @ModelAttribute(USER) User user,
             BindingResult result, HttpServletRequest req, HttpServletResponse resp,Model model) throws IOException, SQLException, DAOException {
 
-        User userDb = userDAO.getUser(user.getLogin(), user.getPassword());
+        User userDb = userDAO.getUser(user.getLogin(), DigestUtils.md5Hex(user.getPassword()));
         HttpSession session = req.getSession();
 
         if(userDb == null)
@@ -93,9 +94,9 @@ public class LoginController extends BaseController{
         User user = new User();
         user.setEmail(person.getEmail());
         user.setLogin(person.getLogin());
-        user.setPassword(person.getPassword());
+        user.setPassword(DigestUtils.md5Hex(person.getPassword()));
         user.setRole(UserRole.User.ordinal());
-        user.setPinCode(person.getPinCode());
+        user.setPinCode(DigestUtils.md5Hex(person.getPinCode()));
         userDAO.create(user);
 
         HttpSession session = req.getSession();

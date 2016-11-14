@@ -4,6 +4,7 @@ import by.bsu.var4.entity.Resource;
 import by.bsu.var4.entity.ResourceGroup;
 import by.bsu.var4.entity.ResourceGroupConnection;
 import by.bsu.var4.exception.DAOException;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -105,7 +106,7 @@ public class ResourceGroupController extends BaseController{
         System.out.println(pin);
         HttpSession session = req.getSession();
         String realPin = (String) session.getAttribute("pinCode");
-        if(realPin.equals(pin)){
+        if(realPin.equals(DigestUtils.md5Hex(pin)){
             resourceDAO.update(resource);
         }
         return manageRequests(req, resp, model);
