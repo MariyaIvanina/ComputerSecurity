@@ -12,12 +12,12 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
-    private static final String SQL_CREATE_USER = "INSERT INTO APPLICATION_USER(LOGIN, EMAIL, USER_PASSWORD, USER_ROLE) VALUES(?,?,?,?)";
-    private static final String SQL_SELECT_USER_BY_ID = "SELECT LOGIN, EMAIL, USER_PASSWORD, USER_ROLE FROM APPLICATION_USER WHERE USER_ID=?";
-    private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT USER_ID, EMAIL, USER_ROLE FROM APPLICATION_USER WHERE LOGIN=? AND USER_PASSWORD=?";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT USER_ID, EMAIL, USER_PASSWORD, USER_ROLE FROM APPLICATION_USER WHERE LOGIN=?";
-    private static final String SQL_SELECT_ALL_USERS = "SELECT USER_ID, LOGIN, EMAIL, USER_PASSWORD, USER_ROLE FROM APPLICATION_USER";
-    private static final String SQL_UPDATE_USER = "UPDATE APPLICATION_USER SET LOGIN=?, EMAIL=?, USER_PASSWORD=?, USER_ROLE=? WHERE USER_ID=?";
+    private static final String SQL_CREATE_USER = "INSERT INTO APPLICATION_USER(LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE) VALUES(?,?,?,?, ?)";
+    private static final String SQL_SELECT_USER_BY_ID = "SELECT LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE USER_ID=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT USER_ID, EMAIL, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE LOGIN=? AND USER_PASSWORD=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT USER_ID, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE LOGIN=?";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT USER_ID, LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER";
+    private static final String SQL_UPDATE_USER = "UPDATE APPLICATION_USER SET LOGIN=?, EMAIL=?, USER_PASSWORD=?, USER_ROLE=?, PIN_CODE = ? WHERE USER_ID=?";
     private static final String SQL_DELETE_USER = "DELETE FROM APPLICATION_USER WHERE USER_ID=?";
 
     private static final String USER_ID = "USER_ID";
@@ -25,6 +25,7 @@ public class UserDAOImpl implements UserDAO {
     private static final String PASSWORD="USER_PASSWORD";
     private static final String EMAIL = "EMAIL";
     private static final String USER_ROLE="USER_ROLE";
+    private static final String PIN_CODE="PIN_CODE";
 
     @Autowired
     private DataSource dataSource;
@@ -37,6 +38,7 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getRole());
+            ps.setString(5, user.getPinCode());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while insert new user.", e);
@@ -56,7 +58,9 @@ public class UserDAOImpl implements UserDAO {
                     String email = rs.getString(EMAIL);
                     String password = rs.getString(PASSWORD);
                     int role = rs.getInt(USER_ROLE);
+                    String pincode = rs.getString(PIN_CODE);
                     user = new User(userId, login, email, password, role);
+                    user.setPinCode(pincode);
                 }
             }
         } catch (SQLException e) {
@@ -79,7 +83,9 @@ public class UserDAOImpl implements UserDAO {
                 String email = rs.getString(EMAIL);
                 String password = rs.getString(PASSWORD);
                 int role = rs.getInt(USER_ROLE);
+                String pincode = rs.getString(PIN_CODE);
                 user = new User(userId, login, email, password, role);
+                user.setPinCode(pincode);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -97,7 +103,8 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getRole());
-            ps.setInt(5, user.getUserId());
+            ps.setString(5, user.getPinCode());
+            ps.setInt(6, user.getUserId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while update user.", e);
@@ -128,7 +135,9 @@ public class UserDAOImpl implements UserDAO {
                     int userId = rs.getInt(USER_ID);
                     String email = rs.getString(EMAIL);
                     int role = rs.getInt(USER_ROLE);
+                    String pincode = rs.getString(PIN_CODE);
                     user = new User(userId, login, email, password, role);
+                    user.setPinCode(pincode);
                 }
             }
         } catch (SQLException e) {
@@ -150,7 +159,9 @@ public class UserDAOImpl implements UserDAO {
                     String email = rs.getString(EMAIL);
                     String password = rs.getString(PASSWORD);
                     int role = rs.getInt(USER_ROLE);
+                    String pincode = rs.getString(PIN_CODE);
                     user = new User(userId, login, email, password, role);
+                    user.setPinCode(pincode);
                 }
             }
         } catch (SQLException e) {
