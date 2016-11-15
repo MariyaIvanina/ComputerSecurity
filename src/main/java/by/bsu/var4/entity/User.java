@@ -1,9 +1,18 @@
 package by.bsu.var4.entity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class User {
     private int userId;
+
+    @NotNull
+    @Size(min=4, max=30, message = "{login.size}")
     private String login;
     private String email;
+
+    @NotNull
+    @Size(min=4, max = 30, message = "{password.size}")
     private String password;
     private int role;
     private String pinCode;

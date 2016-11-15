@@ -1,11 +1,5 @@
-<%--
-    Document   : login
-    Created on : Mar 14, 2015, 11:33:45 PM
-    Author     : Mary
---%>
-
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -49,10 +43,11 @@
     <h1>Log In</h1>
 
     <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm" data-toggle="validator">
+        <span><form:errors/></span>
         <div class="form-group control-group">
             <label class="control-label">Login:</label>
             <div class="controls">
-                <form:input cssClass="form-control input-xlarge" path="login" value="" data-error="Login is invalid" data-minlength="4" maxlength="30" required="true"/>
+                <form:input cssClass="form-control input-xlarge" path="login" value="" data-error="Login is invalid" data-minlength="3" maxlength="30" required="true"/>
                 <span class="error"><form:errors path="login" /></span>
                 <div class="help-block with-errors"></div>
             </div>
@@ -60,7 +55,7 @@
         <div class="form-group  control-group">
             <label class="control-label">Password:</label>
             <div class="controls">
-                <form:password cssClass="form-control input-xlarge" path="password" value="" data-error="Password is invalid" data-minlength="4" maxlength="30" required="true"/>
+                <form:password cssClass="form-control input-xlarge" path="password" value="" data-error="Password is invalid" data-minlength="3" maxlength="30" required="true"/>
                 <span class="error"><form:errors path="password" /></span>
                 <div class="help-block with-errors"></div>
             </div>
