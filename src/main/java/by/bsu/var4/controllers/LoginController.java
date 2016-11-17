@@ -7,9 +7,13 @@ import by.bsu.var4.entity.UserModel;
 import by.bsu.var4.entity.UserRole;
 import by.bsu.var4.exception.DAOException;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.core.ErrorCoded;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,11 +22,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Locale;
 
 @Controller
 public class LoginController extends BaseController{
+
+    @Autowired
+    MessageSource messageSource;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView getLogin(){
@@ -44,20 +53,27 @@ public class LoginController extends BaseController{
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String processLogin(
-            @ModelAttribute(USER) User user,
-            BindingResult result, HttpServletRequest req, HttpServletResponse resp,Model model) throws IOException, SQLException, DAOException {
+    public String processLogin( @Valid User user, Errors errors, Locale locale,
+                                HttpServletRequest req, HttpServletResponse resp,Model model) throws IOException, SQLException, DAOException {
+
+        if(errors.hasErrors()){
+            return LOGIN_PAGE;
+        }
+
+        System.out.println(user);
 
         User userDb = userDAO.getUser(user.getLogin(), DigestUtils.md5Hex(user.getPassword()));
         HttpSession session = req.getSession();
 
+        System.out.println(userDb);
+
         if(userDb == null)
         {
-            result.rejectValue("email", "registration.email.wrongPattern", "Login or password is incorrect!");
+            errors.reject(ERROR_EMPTY_USER, messageSource.getMessage(KEY_EMPTY_USER, null, locale));
         }
 
-        if (result.hasErrors()) {
-            return "login";
+        if (errors.hasErrors()) {
+            return LOGIN_PAGE;
         }
         else
         {

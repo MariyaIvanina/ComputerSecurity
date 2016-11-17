@@ -49,6 +49,7 @@
     <h1>Log In</h1>
 
     <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm" data-toggle="validator">
+        <span><form:errors/></span>
         <div class="form-group control-group">
             <label class="control-label">Login:</label>
             <div class="controls">
