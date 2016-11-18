@@ -28,8 +28,6 @@ public class PermissionFilter implements Filter {
         HttpSession session = req.getSession();
         Integer userRole = (Integer) session.getAttribute("role");
 
-        System.out.println("userRole: " + userRole);
-
         if (userRole == null) {
             RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/WEB-INF/error.jsp");
             dispatcher.forward(req, resp);

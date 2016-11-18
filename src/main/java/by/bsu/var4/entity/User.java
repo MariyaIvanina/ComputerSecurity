@@ -2,6 +2,8 @@ package by.bsu.var4.entity;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
     private int userId;
@@ -16,6 +18,10 @@ public class User {
     private String password;
     private int role;
     private String pinCode;
+    private int attemptCount;
+    private Timestamp lastAttempt;
+    private int pinAttemptCount;
+    private Timestamp pinLastAttempt;
 
     public User() {
         super();
@@ -130,5 +136,37 @@ public class User {
                 ", role=" + role +
                 ", pinCode='" + pinCode + '\'' +
                 '}';
+    }
+
+    public int getAttemptCount() {
+        return attemptCount;
+    }
+
+    public void setAttemptCount(int attemptCount) {
+        this.attemptCount = attemptCount;
+    }
+
+    public Timestamp getLastAttempt() {
+        return lastAttempt;
+    }
+
+    public void setLastAttempt(Timestamp lastAttempt) {
+        this.lastAttempt = lastAttempt;
+    }
+
+    public int getPinAttemptCount() {
+        return pinAttemptCount;
+    }
+
+    public void setPinAttemptCount(int pinAttemptCount) {
+        this.pinAttemptCount = pinAttemptCount;
+    }
+
+    public Timestamp getPinLastAttempt() {
+        return pinLastAttempt;
+    }
+
+    public void setPinLastAttempt(Timestamp pinLastAttempt) {
+        this.pinLastAttempt = pinLastAttempt;
     }
 }

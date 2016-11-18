@@ -14,6 +14,8 @@
     <link href="<c:url value="/resources/css/united.css"/>" rel="stylesheet" type="text/css">
     <script src="<c:url value="/resources/scripts/jquery-2.1.1.min.js"/>" type="text/javascript"></script>
     <script src="<c:url value="/resources/scripts/bootstrap.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/resources/scripts/jquery.idle.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/resources/scripts/script.js"/>" type="text/javascript"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
 </head>

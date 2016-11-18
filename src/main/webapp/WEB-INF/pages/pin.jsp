@@ -1,9 +1,3 @@
-<%--
-    Document   : login
-    Created on : Mar 14, 2015, 11:33:45 PM
-    Author     : Mary
---%>
-
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -40,7 +34,7 @@
                     <li><a href="${pageContext.request.contextPath}/registration" title="Registration">Registration</a></li>
                 </c:if>
                 <c:if test="${currentuser != null}">
-                    <li>${currentuser}</li>
+                    <li><a href="${pageContext.request.contextPath}/" title="Home">${currentuser}</a></li>
                     <li><a href="${pageContext.request.contextPath}/logout" title="LogOut">LogOut</a></li>
                 </c:if>
             </ul>
@@ -50,25 +44,16 @@
 <div class="container body-content">
     <h1>Log In</h1>
 
-    <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm" data-toggle="validator">
+    <form:form commandName="user" cssClass="form-horizontal" id = "LoginForm">
         <span><form:errors/></span>
         <div class="form-group control-group">
-            <label class="control-label">Login:</label>
+            <label class="control-label">Enter pin:</label>
             <div class="controls">
-                <form:input cssClass="form-control input-xlarge" path="login" value="" data-error="Login is invalid" data-minlength="4" maxlength="30" required="true"/>
-                <span class="error"><form:errors path="login" /></span>
+                <form:input cssClass="form-control input-xlarge" path="pinCode" value="" type="password" required="true"/>
+                <span class="error"><form:errors path="pinCode" /></span>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
-        <div class="form-group  control-group">
-            <label class="control-label">Password:</label>
-            <div class="controls">
-                <form:password cssClass="form-control input-xlarge" path="password" value="" data-error="Password is invalid" data-minlength="4" maxlength="30" required="true"/>
-                <span class="error"><form:errors path="password" /></span>
-                <div class="help-block with-errors"></div>
-            </div>
-        </div>
-        <br>
         <div class="form-actions">
             <tr><td><input type="submit" value="Submit" class="btn btn-primary"></td></tr>
         </div>
@@ -80,3 +65,11 @@
 </div>
 </body>
 </html>
+<script>
+    $(document).idle({
+        onIdle: function(){
+            window.location.href = "/pin";
+        },
+        idle: 5*60*1000
+    })
+</script>

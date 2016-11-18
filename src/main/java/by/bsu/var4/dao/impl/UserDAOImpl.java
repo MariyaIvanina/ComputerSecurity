@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 public class UserDAOImpl implements UserDAO {
 
-    private static final String SQL_CREATE_USER = "INSERT INTO APPLICATION_USER(LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE) VALUES(?,?,?,?, ?)";
-    private static final String SQL_SELECT_USER_BY_ID = "SELECT LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE USER_ID=?";
-    private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT USER_ID, EMAIL, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE LOGIN=? AND USER_PASSWORD=?";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT USER_ID, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER WHERE LOGIN=?";
+    private static final String SQL_CREATE_USER = "INSERT INTO APPLICATION_USER(LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE, ATTEMPT_COUNT, LAST_ATTEMPT_DATE, PIN_ATTEMPT_COUNT, PIN_LAST_ATTEMPT_DATE) VALUES(?,?,?,?, ?, ?, ?,?,?)";
+    private static final String SQL_SELECT_USER_BY_ID = "SELECT LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE, ATTEMPT_COUNT, LAST_ATTEMPT_DATE, PIN_ATTEMPT_COUNT, PIN_LAST_ATTEMPT_DATE FROM APPLICATION_USER WHERE USER_ID=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN_AND_PASSWORD = "SELECT USER_ID, EMAIL, USER_ROLE, PIN_CODE, PIN_ATTEMPT_COUNT, PIN_LAST_ATTEMPT_DATE FROM APPLICATION_USER WHERE LOGIN=? AND USER_PASSWORD=?";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT USER_ID, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE, ATTEMPT_COUNT, LAST_ATTEMPT_DATE, PIN_ATTEMPT_COUNT, PIN_LAST_ATTEMPT_DATE FROM APPLICATION_USER WHERE LOGIN=?";
     private static final String SQL_SELECT_ALL_USERS = "SELECT USER_ID, LOGIN, EMAIL, USER_PASSWORD, USER_ROLE, PIN_CODE FROM APPLICATION_USER";
-    private static final String SQL_UPDATE_USER = "UPDATE APPLICATION_USER SET LOGIN=?, EMAIL=?, USER_PASSWORD=?, USER_ROLE=?, PIN_CODE = ? WHERE USER_ID=?";
+    private static final String SQL_UPDATE_USER = "UPDATE APPLICATION_USER SET LOGIN=?, EMAIL=?, USER_PASSWORD=?, USER_ROLE=?, PIN_CODE = ?, ATTEMPT_COUNT = ?, LAST_ATTEMPT_DATE = ?,PIN_ATTEMPT_COUNT = ?, PIN_LAST_ATTEMPT_DATE =? WHERE USER_ID=?";
     private static final String SQL_DELETE_USER = "DELETE FROM APPLICATION_USER WHERE USER_ID=?";
 
     private static final String USER_ID = "USER_ID";
@@ -26,6 +26,10 @@ public class UserDAOImpl implements UserDAO {
     private static final String EMAIL = "EMAIL";
     private static final String USER_ROLE="USER_ROLE";
     private static final String PIN_CODE="PIN_CODE";
+    private static final String ATTEMPT_COUNT="ATTEMPT_COUNT";
+    private static final String LAST_ATTEMPT="LAST_ATTEMPT_DATE";
+    private static final String PIN_ATTEMPT_COUNT="PIN_ATTEMPT_COUNT";
+    private static final String PIN_LAST_ATTEMPT="PIN_LAST_ATTEMPT_DATE";
 
     @Autowired
     private DataSource dataSource;
@@ -39,6 +43,10 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getRole());
             ps.setString(5, user.getPinCode());
+            ps.setInt(6, user.getAttemptCount());
+            ps.setTimestamp(7, user.getLastAttempt());
+            ps.setInt(8, user.getPinAttemptCount());
+            ps.setTimestamp(9, user.getPinLastAttempt());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while insert new user.", e);
@@ -104,7 +112,11 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getRole());
             ps.setString(5, user.getPinCode());
-            ps.setInt(6, user.getUserId());
+            ps.setInt(6, user.getAttemptCount());
+            ps.setTimestamp(7, user.getLastAttempt());
+            ps.setInt(8, user.getPinAttemptCount());
+            ps.setTimestamp(9, user.getPinLastAttempt());
+            ps.setInt(10, user.getUserId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DAOException("Error while update user.", e);
@@ -160,8 +172,14 @@ public class UserDAOImpl implements UserDAO {
                     String password = rs.getString(PASSWORD);
                     int role = rs.getInt(USER_ROLE);
                     String pincode = rs.getString(PIN_CODE);
+                    int attemptCount = rs.getInt(ATTEMPT_COUNT);
+                    int pinAttemptCount = rs.getInt(PIN_ATTEMPT_COUNT);
                     user = new User(userId, login, email, password, role);
                     user.setPinCode(pincode);
+                    user.setAttemptCount(attemptCount);
+                    user.setLastAttempt(rs.getTimestamp(LAST_ATTEMPT));
+                    user.setPinAttemptCount(pinAttemptCount);
+                    user.setPinLastAttempt(rs.getTimestamp(PIN_LAST_ATTEMPT));
                 }
             }
         } catch (SQLException e) {

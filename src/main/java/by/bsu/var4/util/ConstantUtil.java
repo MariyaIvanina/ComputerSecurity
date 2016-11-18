@@ -15,8 +15,9 @@ public class ConstantUtil {
     public static final String USER_GROUP = "userGroupConnections";
 
     public static final String ERROR_EMPTY_USER = "error.user";
-
+    public static final String BLOCK_USER = "user.block";
     public static final String KEY_EMPTY_USER = "user.empty";
+    public static final String PIN_INCORRECT = "user.pinincorrect";
 
     public static final String LOGIN_PAGE = "login";
     public static final String INDEX_PAGE = "index";

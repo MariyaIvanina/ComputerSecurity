@@ -3,11 +3,15 @@ package by.bsu.var4.controllers;
 import by.bsu.var4.entity.Resource;
 import by.bsu.var4.entity.ResourceGroup;
 import by.bsu.var4.entity.ResourceGroupConnection;
+import by.bsu.var4.entity.User;
 import by.bsu.var4.exception.DAOException;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Locale;
+
+import static by.bsu.var4.util.ConstantUtil.*;
+import static by.bsu.var4.util.ConstantUtil.BLOCK_USER;
+import static by.bsu.var4.util.ConstantUtil.LOGIN_PAGE;
 
 /**
  * Created by Asus on 09.10.2016.
@@ -26,6 +37,9 @@ import java.sql.SQLException;
 @Controller
 @RequestMapping("/resourceGroup")
 public class ResourceGroupController extends BaseController{
+
+    @Autowired
+    MessageSource messageSource;
 
     @RequestMapping(value = "/createGroupResource", method = RequestMethod.GET)
     public ModelAndView createGroupResource(HttpServletRequest req, Model model) throws DAOException {
@@ -86,8 +100,6 @@ public class ResourceGroupController extends BaseController{
     @RequestMapping(value = "/addResource", method = RequestMethod.POST)
     public String addResourceToDb(@ModelAttribute("resource") Resource resource,
                                    HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, SQLException, DAOException {
-        System.out.println(resource);
-     //   System.out.println(pinCode);
         resourceDAO.create(resource);
         return manageRequests(req, resp, model);
     }
@@ -100,14 +112,38 @@ public class ResourceGroupController extends BaseController{
     }
 
     @RequestMapping(value = "/editResource", method = RequestMethod.POST)
-    public String editResourceToDb(@ModelAttribute("resource") Resource resource, @RequestParam("pinCode") String pin, BindingResult result,
-                               HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, SQLException, DAOException {
-        System.out.println(resource);
-        System.out.println(pin);
+    public String editResourceToDb(@ModelAttribute("resource") Resource resource, @RequestParam("pinCode") String pin, Errors errors, Locale locale,
+                                   HttpServletRequest req, HttpServletResponse resp, Model model) throws IOException, SQLException, DAOException {
         HttpSession session = req.getSession();
         String realPin = (String) session.getAttribute("pinCode");
+        User userDb = userDAO.getUser((String)session.getAttribute("login"));
+        if(userDb.getPinAttemptCount() > 2)
+        {
+            int addMinuteTime = 15 *60 * 1000;
+            Timestamp targetTime = userDb.getPinLastAttempt();
+            targetTime.setTime(targetTime.getTime() + addMinuteTime);
+            if(targetTime.compareTo(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis())) > 0)
+            {
+                errors.reject(BLOCK_USER, messageSource.getMessage(BLOCK_USER, null, locale));
+                return "addResource";
+            }
+            else
+            {
+                userDb.setPinAttemptCount(0);
+            }
+        }
         if(realPin.equals(DigestUtils.md5Hex(pin))){
             resourceDAO.update(resource);
+            userDb.setPinLastAttempt(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+            userDAO.update(userDb);
+        }
+        else
+        {
+            userDb.setPinAttemptCount(userDb.getPinAttemptCount() + 1);
+            userDb.setPinLastAttempt(new java.sql.Timestamp(Calendar.getInstance().getTimeInMillis()));
+            userDAO.update(userDb);
+            errors.reject(PIN_INCORRECT, messageSource.getMessage(PIN_INCORRECT, null, locale));
+            return "addResource";
         }
         return manageRequests(req, resp, model);
     }
